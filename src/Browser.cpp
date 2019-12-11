@@ -6,7 +6,7 @@ Browser::Browser(BaseObjectType* cobject, const Glib::RefPtr<Gtk::Builder>& refB
     m_refBuilder(refBuilder),
     m_notebook(nullptr)
 {
-    set_default_size(800, 600);
+    set_default_size(1280, 720);
 
     m_refBuilder->get_widget("notebook", m_notebook);
 

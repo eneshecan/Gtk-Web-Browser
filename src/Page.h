@@ -1,17 +1,17 @@
 #pragma once
 
-
 #include "WebView.h"
-#include <gtkmm/window.h>
+#include <gtkmm/box.h>
+#include <gtkmm/builder.h>
 #include <gtkmm/button.h>
 #include <gtkmm/entry.h>
 
 
-class WebBrowser : public Gtk::Window
+class Page : public Gtk::Box
 {
 public:
-    WebBrowser(BaseObjectType* cObject, const Glib::RefPtr<Gtk::Builder>& refBuilder);
-    ~WebBrowser() override = default;
+    Page(BaseObjectType* cobject, const Glib::RefPtr<Gtk::Builder>& refBuilder);
+    ~Page() override = default;
 
 private:
     void slotUriAccepted();

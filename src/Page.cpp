@@ -16,7 +16,7 @@ Page::Page(BaseObjectType *cobject, const Glib::RefPtr<Gtk::Builder> &refBuilder
     m_refBuilder->get_widget("refresh_button", m_refreshButton);
     m_refBuilder->get_widget("refresh_image", m_refreshImage);
 
-    m_searchBar->set_text("https://www.google.com/");
+    m_searchBar->set_text("https://old.reddit.com");
     m_webView.loadUri(m_searchBar->get_text());
 
     m_searchBar->signal_activate().connect(sigc::mem_fun(this, &Page::slotUriAccepted));
@@ -25,10 +25,16 @@ Page::Page(BaseObjectType *cobject, const Glib::RefPtr<Gtk::Builder> &refBuilder
     m_refreshButton->signal_clicked().connect(sigc::mem_fun(&m_webView, &WebView::refresh));
     m_webView.signalUriChanged().connect(sigc::mem_fun(this, &Page::slotUriChanged));
     m_webView.signalLoadingChanged().connect(sigc::mem_fun(this, &Page::slotLoadingChanged));
+    m_webView.signalTitleChanged().connect(sigc::mem_fun(this, &Page::slotTitleChanged));
 
     pack_end(m_webView);
 
     show_all();
+}
+
+sigc::signal<void, Glib::ustring> Page::signalTitleChanged()
+{
+    return m_signalTitleChanged;
 }
 
 void Page::slotUriAccepted()
@@ -44,4 +50,9 @@ void Page::slotUriChanged(const Glib::ustring &uri)
 void Page::slotLoadingChanged(bool loading)
 {
     m_refreshImage->set_from_icon_name(loading ? "window-close" : "view-refresh", Gtk::IconSize{Gtk::ICON_SIZE_BUTTON});
+}
+
+void Page::slotTitleChanged(const Glib::ustring &title)
+{
+    m_signalTitleChanged.emit(title);
 }

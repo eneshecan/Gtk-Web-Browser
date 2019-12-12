@@ -18,6 +18,7 @@ static void loadChanged(WebKitWebView* webView, WebKitLoadEvent loadEvent, gpoin
             webViewWidget->signalUriChanged().emit(webkit_web_view_get_uri(webView));
             break;
         case WEBKIT_LOAD_FINISHED:
+            webViewWidget->signalTitleChanged().emit(webkit_web_view_get_title(webView));
             webViewWidget->signalLoadingChanged().emit(false);
             break;
         default: break;
@@ -63,4 +64,9 @@ sigc::signal<void, Glib::ustring> WebView::signalUriChanged()
 sigc::signal<void, bool>  WebView::signalLoadingChanged()
 {
     return m_signalLoadingChanged;
+}
+
+sigc::signal<void, Glib::ustring> WebView::signalTitleChanged()
+{
+    return m_signalTitleChanged;
 }

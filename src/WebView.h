@@ -22,8 +22,10 @@ public:
 public:
     sigc::signal<void, Glib::ustring> signalUriChanged();
     sigc::signal<void, bool>          signalLoadingChanged();
+    sigc::signal<void, Glib::ustring> signalTitleChanged();
 
 private:
     sigc::signal<void, Glib::ustring> m_signalUriChanged;
     sigc::signal<void, bool>          m_signalLoadingChanged;
+    sigc::signal<void, Glib::ustring> m_signalTitleChanged;
 };

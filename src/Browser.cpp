@@ -15,8 +15,10 @@ Browser::Browser(BaseObjectType* cobject, const Glib::RefPtr<Gtk::Builder>& refB
     auto newPage = Gtk::make_managed<Gtk::Box>();
     m_notebook->append_page(*newPage);
 
-    auto addPageButton = Gtk::make_managed<Gtk::Button>("+");
-    addPageButton->set_relief(Gtk::RELIEF_NONE);
+    auto buttonBuilder = Gtk::Builder::create_from_file("../../styles/page.ui");
+    Gtk::Button* addPageButton = nullptr;
+    buttonBuilder->get_widget("add_page_button", addPageButton);
+
     m_notebook->set_tab_label(*newPage, *addPageButton);
 
     addPageButton->signal_clicked().connect([this]()
@@ -39,6 +41,10 @@ void Browser::addPage(const int pos)
     auto tabBuilder = Gtk::Builder::create_from_file("../../styles/page.ui");
     Gtk::Box* tab = nullptr;
     tabBuilder->get_widget("tab_box", tab);
+
+    auto tabLabel = dynamic_cast<Gtk::Label*>(tab->get_children()[0]);
+    page->signalTitleChanged().connect(sigc::mem_fun(*tabLabel, &Gtk::Label::set_text));
+    page->signalTitleChanged().connect(sigc::mem_fun(*tabLabel, &Gtk::Label::set_tooltip_text));
 
     auto closeTabButton = dynamic_cast<Gtk::Button*>(tab->get_children()[1]);
     closeTabButton->signal_clicked().connect([this, page]()

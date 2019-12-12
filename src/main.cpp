@@ -8,7 +8,7 @@ int main(int argc, char** argv)
     auto refBuilder = Gtk::Builder::create_from_file("../../styles/browser.ui");
 
     Browser* browser = nullptr;
-    refBuilder->get_widget_derived("browser", browser);
+    refBuilder->get_widget_derived("browser_window", browser);
 
     return app->run(*browser);
 }

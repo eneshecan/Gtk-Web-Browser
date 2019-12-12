@@ -4,6 +4,10 @@
 static void loadChanged(WebKitWebView* webView, WebKitLoadEvent loadEvent, gpointer userData)
 {
     auto webViewWidget = reinterpret_cast<WebView*>(userData);
+    if(!webViewWidget)
+    {
+        return;
+    }
 
     switch(loadEvent)
     {

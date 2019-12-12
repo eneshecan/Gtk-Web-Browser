@@ -10,13 +10,48 @@ Browser::Browser(BaseObjectType* cobject, const Glib::RefPtr<Gtk::Builder>& refB
 
     m_refBuilder->get_widget("notebook", m_notebook);
 
-    auto pageBuilder = Gtk::Builder::create_from_file("../../styles/page.ui");
+    addPage(0);
 
-    Page* page = nullptr;
-    pageBuilder->get_widget_derived("page", page);
+    auto newPage = Gtk::make_managed<Gtk::Box>();
+    m_notebook->append_page(*newPage);
 
-    m_notebook->append_page(*page);
+    auto addPageButton = Gtk::make_managed<Gtk::Button>("+");
+    addPageButton->set_relief(Gtk::RELIEF_NONE);
+    m_notebook->set_tab_label(*newPage, *addPageButton);
+
+    addPageButton->signal_clicked().connect([this]()
+    {
+        addPage(m_notebook->get_n_pages() - 1);
+    });
 
     maximize();
     show_all();
+}
+
+void Browser::addPage(const int pos)
+{
+    auto pageBuilder = Gtk::Builder::create_from_file("../../styles/page.ui");
+    Page* page = nullptr;
+    pageBuilder->get_widget_derived("page_box", page);
+    m_notebook->insert_page(*page, pos);
+    m_notebook->set_current_page(pos);
+
+    auto tabBuilder = Gtk::Builder::create_from_file("../../styles/page.ui");
+    Gtk::Box* tab = nullptr;
+    tabBuilder->get_widget("tab_box", tab);
+
+    auto closeTabButton = dynamic_cast<Gtk::Button*>(tab->get_children()[1]);
+    closeTabButton->signal_clicked().connect([this, page]()
+    {
+        if(m_notebook->get_n_pages() > 2)
+        {
+            m_notebook->remove_page(*page);
+            if(m_notebook->get_current_page() == (m_notebook->get_n_pages() - 1))
+            {
+                m_notebook->prev_page();
+            }
+        }
+    });
+
+    m_notebook->set_tab_label(*page, *tab);
 }

@@ -38,6 +38,9 @@
 out/
 build/
 
+# Temporary UI Files
+*.ui~
+
 # mpeltonen/sbt-idea plugin
 .idea_modules/
 

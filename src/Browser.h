@@ -12,6 +12,9 @@ public:
     ~Browser() override = default;
 
 private:
+    void addPage(const int pos);
+
+private:
     Glib::RefPtr<Gtk::Builder> m_refBuilder;
     Gtk::Notebook*             m_notebook;
 };

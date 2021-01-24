@@ -12,5 +12,7 @@ A simple Web Browser written in C++ with the help of gtkmm-3.0 and webkit2
 
 ### Build
 
-`mkdir build/debug`  
-`cmake --build build/debug`
+`mkdir build`
+`cd build`
+`cmake ..`
+`make`

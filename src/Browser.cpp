@@ -15,7 +15,7 @@ Browser::Browser(BaseObjectType* cobject, const Glib::RefPtr<Gtk::Builder>& refB
     auto newPage = Gtk::make_managed<Gtk::Box>();
     m_notebook->append_page(*newPage);
 
-    auto buttonBuilder = Gtk::Builder::create_from_file("../../styles/page.ui");
+    auto buttonBuilder = Gtk::Builder::create_from_file("../styles/page.ui");
     Gtk::Button* addPageButton = nullptr;
     buttonBuilder->get_widget("add_page_button", addPageButton);
 
@@ -32,13 +32,13 @@ Browser::Browser(BaseObjectType* cobject, const Glib::RefPtr<Gtk::Builder>& refB
 
 void Browser::addPage(const int pos)
 {
-    auto pageBuilder = Gtk::Builder::create_from_file("../../styles/page.ui");
+    auto pageBuilder = Gtk::Builder::create_from_file("../styles/page.ui");
     Page* page = nullptr;
     pageBuilder->get_widget_derived("page_box", page);
     m_notebook->insert_page(*page, pos);
     m_notebook->set_current_page(pos);
 
-    auto tabBuilder = Gtk::Builder::create_from_file("../../styles/page.ui");
+    auto tabBuilder = Gtk::Builder::create_from_file("../styles/page.ui");
     Gtk::Box* tab = nullptr;
     tabBuilder->get_widget("tab_box", tab);
 
